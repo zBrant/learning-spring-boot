@@ -17,38 +17,15 @@ public class VendasApplication {
   public CommandLineRunner init(@Autowired Clientes clientes){
     return args -> {
       System.out.println("salvando clientes");
-      clientes.salvar(new Cliente("Kratos"));
-      clientes.salvar(new Cliente("Ronaldo"));
+      clientes.save(new Cliente("Kratos"));
+      clientes.save(new Cliente("Ronaldo"));
 
-      List<Cliente> todosClientes = clientes.obterTodos();
-      todosClientes.forEach(System.out::println);
+      List<Cliente> result = clientes.encontraPorNome("Kratos");
+      result.forEach(System.out::println);
 
-
-      System.out.println("Atualizando clientes");
-      todosClientes.forEach(c -> {
-        c.setNome(c.getNome() + " atualizado");
-        clientes.atualizar(c);
-      });
-
-      todosClientes = clientes.obterTodos();
-      todosClientes.forEach(System.out::println);
-
-      System.out.println("Buscando clientes");
-      clientes.buscarPorNome("atu").forEach(System.out::println);
-
-      System.out.println("deletando clientes");
-      clientes.obterTodos().forEach(c -> {
-        clientes.deletar(c);
-      });
-
-      todosClientes = clientes.obterTodos();
-      if(todosClientes.isEmpty()){
-        System.out.println("Nenhum cliente encontrado");
-      }else{
-        todosClientes.forEach(System.out::println);
-      }
     };
   }
+
   public static void main(String[] args) {
     SpringApplication.run(VendasApplication.class, args);
   }
