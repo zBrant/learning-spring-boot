@@ -19,6 +19,7 @@ public class VendasApplication {
       System.out.println("salvando clientes");
       clientes.salvar(new Cliente("Kratos"));
       clientes.salvar(new Cliente("Ronaldo"));
+
       List<Cliente> todosClientes = clientes.obterTodos();
       todosClientes.forEach(System.out::println);
 
@@ -35,10 +36,10 @@ public class VendasApplication {
       System.out.println("Buscando clientes");
       clientes.buscarPorNome("atu").forEach(System.out::println);
 
-//      System.out.println("deletando clientes");
-//      clientes.obterTodos().forEach(c -> {
-//        clientes.deletar(c);
-//      });
+      System.out.println("deletando clientes");
+      clientes.obterTodos().forEach(c -> {
+        clientes.deletar(c);
+      });
 
       todosClientes = clientes.obterTodos();
       if(todosClientes.isEmpty()){
@@ -47,7 +48,6 @@ public class VendasApplication {
         todosClientes.forEach(System.out::println);
       }
     };
-
   }
   public static void main(String[] args) {
     SpringApplication.run(VendasApplication.class, args);
