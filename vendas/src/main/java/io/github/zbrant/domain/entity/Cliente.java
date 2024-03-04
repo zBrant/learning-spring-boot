@@ -3,7 +3,19 @@ package io.github.zbrant.domain.entity;
 public class Cliente {
 
   private Integer id;
-  private Integer nome;
+  private String nome;
+
+  public Cliente(){
+  }
+
+  public Cliente(String nome){
+    this.nome = nome;
+  }
+
+  public Cliente(String nome, Integer id){
+    this.id = id;
+    this.nome = nome;
+  }
 
   public Integer getId() {
     return id;
@@ -13,11 +25,19 @@ public class Cliente {
     this.id = id;
   }
 
-  public Integer getNome() {
+  public String getNome() {
     return nome;
   }
 
-  public void setNome(Integer nome) {
+  public void setNome(String nome) {
     this.nome = nome;
+  }
+
+  @Override
+  public String toString() {
+    return "Cliente{" +
+        "id=" + id +
+        ", nome='" + nome + '\'' +
+        '}';
   }
 }
