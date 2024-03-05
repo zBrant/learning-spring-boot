@@ -3,6 +3,8 @@ package io.github.zbrant.domain.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @NoArgsConstructor
@@ -18,8 +20,10 @@ public class Produto {
   private Integer id;
 
   @Column(name = "descricao")
+  @NotEmpty(message = "campo descricao é obrigatório")
   private String descricao;
 
   @Column(name = "preco_unitario")
+  @NotNull(message = "campo preço é obrigatório")
   private BigDecimal preco;
 }

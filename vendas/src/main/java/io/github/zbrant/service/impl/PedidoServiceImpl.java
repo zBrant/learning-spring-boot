@@ -65,7 +65,7 @@ public class PedidoServiceImpl implements PedidoService {
         .map(pedido ->  {
           pedido.setStatus(statusPedido);
           return repository.save(pedido);
-        }).orElseThrow(PedidoNaoEncontradoException::new);
+        }).orElseThrow(() -> new PedidoNaoEncontradoException());
   }
 
   private List<ItemPedido> converterItems(Pedido pedido, List<ItemPedidoDTO> items){
