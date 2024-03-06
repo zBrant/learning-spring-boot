@@ -21,7 +21,7 @@ public class ClienteController {
     this.clientes = clientes;
   }
 
-  @RequestMapping("/{id}")
+  @GetMapping("/{id}")
   public Cliente getClienteById(@PathVariable Integer id){
     return clientes
         .findById(id)
