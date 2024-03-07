@@ -7,6 +7,7 @@
     <groupId>io.github.zbrant</groupId>
     <artifactId>vendas</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>${project.packaging}</packaging>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -21,7 +22,35 @@
         <version>2.2.4.RELEASE</version>
     </parent>
 
+    <profiles>
+        <profile>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <id>desenvolvimento</id>
+            <properties>
+                <project.packaging>jar</project.packaging>
+                <tomcat.scope>compile</tomcat.scope>
+            </properties>
+        </profile>
+
+
+        <profile>
+            <id>producao</id>
+            <properties>
+                <project.packaging>war</project.packaging>
+                <tomcat.scope>provided</tomcat.scope>
+            </properties>
+        </profile>
+    </profiles>
+
     <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -29,7 +58,8 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>${tomcat.scope}</scope>
         </dependency>
 
         <dependency>
@@ -60,6 +90,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
             <scope>provided</scope>
         </dependency>
 
@@ -92,4 +123,6 @@
             </plugin>
         </plugins>
     </build>
+
+
 </project>
