@@ -1,6 +1,6 @@
 package io.github.zbrant.restwithspring.controller;
 
-import io.github.zbrant.restwithspring.exceptions.UnsupportedMathOperationException;
+import io.github.zbrant.restwithspring.exceptions.ResourceNotFoundException;
 import io.github.zbrant.restwithspring.model.Person;
 import io.github.zbrant.restwithspring.services.PersonServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 
 @RestController
 @RequestMapping("/person")
@@ -19,7 +18,7 @@ public class PersonController {
     private PersonServices service;
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person findById(@PathVariable(name = "id") String id) throws UnsupportedMathOperationException{
+    public Person findById(@PathVariable(name = "id") Long id) throws ResourceNotFoundException {
         return service.findById(id);
     }
 
@@ -33,13 +32,13 @@ public class PersonController {
         return service.create(person);
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public Person update(@RequestBody Person person){
         return service.update(person);
     }
 
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable(value = "id") String id){
+    public void delete(@PathVariable(value = "id") Long id){
         service.delete(id);
     }
 }
