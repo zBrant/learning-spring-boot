@@ -1,17 +1,11 @@
-package io.github.zbrant.restwithspring;
+package io.github.zbrant.restwithspring.service;
 
 import io.github.zbrant.restwithspring.exceptions.UnsupportedMathOperationException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Service;
 
-import java.util.concurrent.atomic.AtomicLong;
-
-@RestController
-public class MathController {
-
-    private final AtomicLong counter = new AtomicLong();
-
-    @GetMapping("/sum/{n1}/{n2}")
-    public Double sum(@PathVariable(name = "n1") String n1, @PathVariable(name = "n2") String n2) throws UnsupportedMathOperationException{
+@Service
+public class MathOperations {
+    public Double sum(String n1, String n2){
         if(!isNumeric(n1) || !isNumeric(n2)){
             throw new UnsupportedMathOperationException("Please set a numeric value");
         }
@@ -19,40 +13,37 @@ public class MathController {
         return converToDouble(n1) + converToDouble(n2);
     }
 
-    @GetMapping("/sub/{n1}/{n2}")
-    public Double sub(@PathVariable(name = "n1") String n1, @PathVariable(name = "n2") String n2) throws UnsupportedMathOperationException{
+    public Double sub(String n1, String n2){
         if(!isNumeric(n1) || !isNumeric(n2)){
             throw new UnsupportedMathOperationException("Please set a numeric value");
         }
 
         return converToDouble(n1) - converToDouble(n2);
     }
-    @GetMapping("/mult/{n1}/{n2}")
-    public Double mult(@PathVariable(name = "n1") String n1, @PathVariable(name = "n2") String n2) throws UnsupportedMathOperationException{
+
+    public Double mult(String n1, String n2){
         if(!isNumeric(n1) || !isNumeric(n2)){
             throw new UnsupportedMathOperationException("Please set a numeric value");
         }
 
         return converToDouble(n1) * converToDouble(n2);
     }
-    @GetMapping("/div/{n1}/{n2}")
-    public Double div(@PathVariable(name = "n1") String n1, @PathVariable(name = "n2") String n2) throws UnsupportedMathOperationException{
+
+    public Double div(String n1, String n2){
         if(!isNumeric(n1) || !isNumeric(n2)){
             throw new UnsupportedMathOperationException("Please set a numeric value");
         }
 
         return converToDouble(n1) / converToDouble(n2);
     }
-    @GetMapping("/mean/{n1}/{n2}")
-    public Double mean(@PathVariable(name = "n1") String n1, @PathVariable(name = "n2") String n2) throws UnsupportedMathOperationException{
+    public Double mean(String n1, String n2){
         if(!isNumeric(n1) || !isNumeric(n2)){
             throw new UnsupportedMathOperationException("Please set a numeric value");
         }
 
         return (converToDouble(n1) + converToDouble(n2))/2;
     }
-    @GetMapping("/sqrt/{n1}")
-    public Double sqrt(@PathVariable(name = "n1") String n1) throws UnsupportedMathOperationException{
+    public Double sqrt(String n1){
         if(!isNumeric(n1)){
             throw new UnsupportedMathOperationException("Please set a numeric value");
         }
