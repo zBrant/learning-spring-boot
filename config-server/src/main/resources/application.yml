@@ -3,6 +3,11 @@ server:
 spring:
   application:
     name: config-server
-  profiles:
-    active:
-      - native
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/zBrant/learning-spring-boot
+          default-label: main
+          search-paths:
+            - 'config-server-files/greeting-service*'
