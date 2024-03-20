@@ -3,7 +3,7 @@ server:
 eureka:
   client:
     service-url:
-      default-zone: http://localhost:8761/eureka
+      defaultZone: http://localhost:8761/eureka
 resilience4j:
   ratelimiter:
     instances:
@@ -36,8 +36,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
   flyway:
-    url: jdbc:mysql://localhost:3306/
-    schemas: book_service
+    url: jdbc:mysql://localhost:3306/book_service?useTimezone=true&serverTimezone=UTC
     user: root
     password: Senha@123
   jackson:
@@ -49,7 +48,6 @@ spring:
       sampling:
         probability: 1.0
 springdoc:
-  show-actuator: true
   api-docs:
     path: book-service/v3/api-docs
   swagger-ui:
