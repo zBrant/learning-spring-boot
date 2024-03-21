@@ -19,11 +19,8 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '21'
-          distribuition: 'adopt'
+          distribution: 'adopt'
 
       - name: Build Eureka Naming Server
         working-directory: ./naming-server
         run: mvn spring-boot:build-image -DskipTests
-
-
-      
