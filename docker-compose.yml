@@ -2,10 +2,10 @@ version: '3.4'
 
 services:
   zipkin-server:
-    image: openzipkin/zipkin:3
-    ports:
-      - "9411:9411"
+    image: openzipkin/zipkin:latest
     restart: always
+    ports:
+      - 9411:9411
     depends_on:
       - rabbit-mq
     environment:
@@ -13,7 +13,8 @@ services:
     networks:
       - kratos-network
   rabbit-mq:
-    image: rabbitmq:3.8.14-management
+    image: rabbitmq:3-management
+    restart: always
     ports:
       - 5672:5672
       - 15672:15672
@@ -70,7 +71,8 @@ services:
       - rabbit-mq
     environment:
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
-      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
+      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411
+      MANAGEMENT.ZIPKIN.TRACING.ENDPOINT:  http://zipkin-server:9411/api/v2/spans
       RABBIT_URI: amqp://guest:guest@rabbit-mq:5672
       SPRING_RABBITMQ_HOST: rabbit-mq
       SPRING_ZIPKIN_SENDER_TYPE: rabbit
@@ -85,10 +87,11 @@ services:
     environment:
       TZ: America/Sao_Paulo
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
-      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
+      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411
       RABBIT_URI: amqp://guest:guest@rabbit-mq:5672
       SPRING_RABBITMQ_HOST: rabbit-mq
       SPRING_ZIPKIN_SENDER_TYPE: rabbit
+      MANAGEMENT.ZIPKIN.TRACING.ENDPOINT:  http://zipkin-server:9411/api/v2/spans
       SPRING.DATASOURCE.URL: jdbc:mysql://cambio-db:3308/cambio_service?useSSL=false&serverTimezone=UTC&enabledTLSProtocols=TLSv1.2
       SPRING.DATASOURCE.USERNAME: root
       SPRING.DATASOURCE.PASSWORD: Senha@123
@@ -112,7 +115,8 @@ services:
     environment:
       TZ: America/Sao_Paulo
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
-      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
+      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411
+      MANAGEMENT.ZIPKIN.TRACING.ENDPOINT:  http://zipkin-server:9411/api/v2/spans
       RABBIT_URI: amqp://guest:guest@rabbit-mq:5672
       SPRING_RABBITMQ_HOST: rabbit-mq
       SPRING_ZIPKIN_SENDER_TYPE: rabbit
