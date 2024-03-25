@@ -8,22 +8,36 @@ import io.github.zbrant.testesunitarios.exceptions.LocadoraException;
 
 import static io.github.zbrant.testesunitarios.utils.DataUtils.adicionarDias;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class LocacaoService {
 
-    public Locacao alugarFilme(Usuario usuario, Filme filme) throws FilmeSemEstoqueException, LocadoraException {
+    public Locacao alugarFilme(Usuario usuario, List<Filme> filmes) throws FilmeSemEstoqueException, LocadoraException {
 
-        if(filme == null) throw new LocadoraException("Filme vazio");
-        if (filme.getEstoque() == 0) throw new FilmeSemEstoqueException();
+        if(filmes == null) throw new LocadoraException("Filme vazio");
+
+        for (Filme filme: filmes) {
+            if (filme.getEstoque() == 0) {
+                throw new FilmeSemEstoqueException();
+            }
+        }
+
         if(usuario == null) throw new LocadoraException("Usuario vazio");
-
         Locacao locacao = new Locacao();
-        locacao.setFilme(filme);
+
+        double valorTotal = 0;
+        for (Filme filme: filmes) {
+            valorTotal += filme.getPrecoLocacao();
+        }
+
+        locacao.setFilmes(filmes);
         locacao.setUsuario(usuario);
         locacao.setDataLocacao(new Date());
-        locacao.setValor(filme.getPrecoLocacao());
+        locacao.setValor(valorTotal);
+        locacao.setFilmes(filmes);
 
         //Entrega no dia seguinte
         Date dataEntrega = new Date();
