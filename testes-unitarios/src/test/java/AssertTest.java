@@ -1,5 +1,3 @@
-package io.github.zbrant.testesunitarios.servicos;
-
 import io.github.zbrant.testesunitarios.entidades.Usuario;
 import org.junit.Assert;
 import org.junit.Test;
