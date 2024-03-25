@@ -5,13 +5,12 @@ import io.github.zbrant.testesunitarios.entidades.Locacao;
 import io.github.zbrant.testesunitarios.entidades.Usuario;
 import io.github.zbrant.testesunitarios.exceptions.FilmeSemEstoqueException;
 import io.github.zbrant.testesunitarios.exceptions.LocadoraException;
+import io.github.zbrant.testesunitarios.utils.DataUtils;
+import org.junit.Test;
 
 import static io.github.zbrant.testesunitarios.utils.DataUtils.adicionarDias;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class LocacaoService {
 
@@ -29,9 +28,19 @@ public class LocacaoService {
         Locacao locacao = new Locacao();
 
         double valorTotal = 0;
-        for (Filme filme: filmes) {
-            valorTotal += filme.getPrecoLocacao();
+        for (int i = 0; i < filmes.size(); i++) {
+            Filme filme = filmes.get(i);
+            double valorFilme = filme.getPrecoLocacao();
+
+            switch(i){
+                case 2: valorFilme *= 0.75; break;
+                case 3: valorFilme *= 0.5; break;
+                case 4: valorFilme *= 0.25; break;
+                case 5: valorFilme *= 0d; break;
+            }
+            valorTotal += valorFilme;
         }
+
 
         locacao.setFilmes(filmes);
         locacao.setUsuario(usuario);
@@ -42,6 +51,9 @@ public class LocacaoService {
         //Entrega no dia seguinte
         Date dataEntrega = new Date();
         dataEntrega = adicionarDias(dataEntrega, 1);
+        if(DataUtils.verificarDiaSemana(dataEntrega, Calendar.SUNDAY)){
+            dataEntrega = adicionarDias(dataEntrega, 1);
+        }
         locacao.setDataRetorno(dataEntrega);
 
         //Salvando a locacao...
