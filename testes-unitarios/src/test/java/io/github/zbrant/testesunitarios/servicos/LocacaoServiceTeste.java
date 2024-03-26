@@ -9,7 +9,10 @@ import io.github.zbrant.testesunitarios.exceptions.LocadoraException;
 import org.junit.*;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import java.util.*;
 
@@ -24,9 +27,13 @@ import static org.mockito.Mockito.*;
 
 public class LocacaoServiceTeste {
 
+    @InjectMocks
     private LocacaoService service;
+    @Mock
     private SPCService spc;
+    @Mock
     private LocacaoDAO dao;
+    @Mock
     private EmailService email;
 
     @Rule
@@ -37,13 +44,7 @@ public class LocacaoServiceTeste {
 
     @Before
     public void setup(){
-        service = new LocacaoService();
-        dao = mock(LocacaoDAO.class);
-        service.setLocacaoDAO(dao);
-        spc = mock(SPCService.class);
-        service.setSpcService(spc);
-        email = mock(EmailService.class);
-        service.setEmailService(email);
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
@@ -115,7 +116,7 @@ public class LocacaoServiceTeste {
     }
 
     @Test
-    public void naoDeveAlugarFilmeParaNegativadoSPC() throws FilmeSemEstoqueException {
+    public void naoDeveAlugarFilmeParaNegativadoSPC() throws Exception {
         // cenario
         Usuario usuario = umUsuario().agora();
         List<Filme> filmes = Arrays.asList(umFilme().agora());
@@ -157,5 +158,21 @@ public class LocacaoServiceTeste {
         verify(email, Mockito.atLeastOnce()).notificarAtraso(usuario3);
         verify(email, never()).notificarAtraso(usuario2);
         verifyNoMoreInteractions(email);
+    }
+
+    @Test
+    public void deveTratarErroNoSPC() throws Exception {
+         // cenario
+        Usuario usuario = umUsuario().agora();
+        List<Filme> filmes = Arrays.asList(umFilme().agora());
+
+        when(spc.possuiNegativacao(usuario)).thenThrow(new Exception("Falha catastrofica"));
+
+        // verificacao
+        exception.expect(LocadoraException.class);
+        exception.expectMessage("Problemas com SPC, tente novamente");
+
+        // acao
+        service.alugarFilme(usuario, filmes);
     }
 }
