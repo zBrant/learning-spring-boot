@@ -1,5 +1,6 @@
 package io.github.zbrant.testesunitarios.servicos;
 
+import io.github.zbrant.testesunitarios.daos.LocacaoDAO;
 import io.github.zbrant.testesunitarios.entidades.Filme;
 import io.github.zbrant.testesunitarios.entidades.Locacao;
 import io.github.zbrant.testesunitarios.entidades.Usuario;
@@ -9,6 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -35,6 +38,10 @@ public class CalculoValorLocacaoTest {
     @Before
     public void setup(){
         service = new LocacaoService();
+        LocacaoDAO dao = Mockito.mock(LocacaoDAO.class);
+        service.setLocacaoDAO(dao);
+        SPCService spc = Mockito.mock(SPCService.class);
+        service.setSpcService(spc);
     }
 
     private static Filme filme1 = umFilme().agora();

@@ -1,12 +1,12 @@
 package io.github.zbrant.testesunitarios.servicos;
 
+import io.github.zbrant.testesunitarios.daos.LocacaoDAO;
 import io.github.zbrant.testesunitarios.entidades.Filme;
 import io.github.zbrant.testesunitarios.entidades.Locacao;
 import io.github.zbrant.testesunitarios.entidades.Usuario;
 import io.github.zbrant.testesunitarios.exceptions.FilmeSemEstoqueException;
 import io.github.zbrant.testesunitarios.exceptions.LocadoraException;
 import io.github.zbrant.testesunitarios.utils.DataUtils;
-import org.junit.Test;
 
 import static io.github.zbrant.testesunitarios.utils.DataUtils.adicionarDias;
 
@@ -14,9 +14,14 @@ import java.util.*;
 
 public class LocacaoService {
 
+    private LocacaoDAO dao;
+    private SPCService spcService;
+    private EmailService emailService;
+
     public Locacao alugarFilme(Usuario usuario, List<Filme> filmes) throws FilmeSemEstoqueException, LocadoraException {
 
-        if(filmes == null) throw new LocadoraException("Filme vazio");
+        if(usuario == null) throw new LocadoraException("Usuario vazio");
+        if(filmes == null || filmes.isEmpty()) throw new LocadoraException("Filme vazio");
 
         for (Filme filme: filmes) {
             if (filme.getEstoque() == 0) {
@@ -24,9 +29,9 @@ public class LocacaoService {
             }
         }
 
-        if(usuario == null) throw new LocadoraException("Usuario vazio");
-        Locacao locacao = new Locacao();
+        if (spcService.possuiNegativacao(usuario)) throw new LocadoraException("Usuario Negativado");
 
+        Locacao locacao = new Locacao();
         double valorTotal = 0;
         for (int i = 0; i < filmes.size(); i++) {
             Filme filme = filmes.get(i);
@@ -58,7 +63,29 @@ public class LocacaoService {
 
         //Salvando a locacao...
         //TODO adicionar método para salvar
+        dao.salvar(locacao);
 
         return locacao;
+    }
+
+    public void notificarAtrasos(){
+        List<Locacao> locacaoes = dao.obterLocacoesPendentes();
+        for (Locacao locacao: locacaoes){
+            if (locacao.getDataRetorno().before(new Date())) {
+                emailService.notificarAtraso(locacao.getUsuario());
+            }
+        }
+    }
+
+    public void setLocacaoDAO(LocacaoDAO dao){
+        this.dao = dao;
+    }
+
+    public void setSpcService(SPCService spc){
+        this.spcService = spc;
+    }
+
+    public void setEmailService(EmailService emailService) {
+        this.emailService = emailService;
     }
 }

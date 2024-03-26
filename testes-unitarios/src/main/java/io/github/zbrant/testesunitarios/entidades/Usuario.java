@@ -28,6 +28,13 @@ public class Usuario {
 		return nome;
 	}
 
+	@Override
+	public String toString() {
+		return "Usuario{" +
+				"nome='" + nome + '\'' +
+				'}';
+	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
