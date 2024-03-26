@@ -1,5 +1,6 @@
 package io.github.zbrant.testesunitarios.servicos;
 
+import buildermaster.BuilderMaster;
 import io.github.zbrant.testesunitarios.builders.FilmeBuilder;
 import io.github.zbrant.testesunitarios.builders.UsuarioBuilder;
 import io.github.zbrant.testesunitarios.entidades.Filme;
@@ -103,4 +104,7 @@ public class LocacaoServiceTeste {
         assertThat(retorno.getDataRetorno(), caiNumaSegunda());
     }
 
+    public static void main(String[] args) {
+        new BuilderMaster().gerarCodigoClasse(Locacao.class);
+    }
 }
