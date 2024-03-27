@@ -5,6 +5,7 @@ import io.github.zbrant.testesunitarios.exceptions.NaoPodeDividirPorZeroExceptio
 public class Calculadora {
 
     public int somar(int a, int b){
+        System.out.println("Estou executando o metodo somar");
         return a + b;
     }
 
