@@ -1,11 +1,32 @@
 package io.github.zbrant.testesunitarios.servicos;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
+import org.mockito.*;
 
 public class CalculadoraMockTest {
+
+    @Mock
+    private Calculadora calcMock;
+    @Spy
+    private Calculadora calcSpy;
+    @Spy
+    private EmailService emailSpy;
+
+    @Before
+    public void setup(){
+        MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    public void devoMostrarDiferencaEntreMockSpy(){
+        Mockito.when(calcMock.somar(1,2)).thenReturn(8);
+        Mockito.when(calcSpy.somar(1,2)).thenReturn(8);
+
+        System.out.println("Mock: " + calcMock.somar(1,5));
+        System.out.println("Spy: " + calcSpy.somar(1,5));
+    }
 
     @Test
     public void teste(){

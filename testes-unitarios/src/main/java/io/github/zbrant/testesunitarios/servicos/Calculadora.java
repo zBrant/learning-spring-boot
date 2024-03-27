@@ -20,4 +20,8 @@ public class Calculadora {
     public int dividir(String a, String b){
         return Integer.valueOf(a) / Integer.valueOf(b);
     }
+
+    public void imprime(){
+        System.out.println("aquiiiiii");
+    }
 }
