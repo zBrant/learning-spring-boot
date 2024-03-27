@@ -5,10 +5,7 @@ import io.github.zbrant.testesunitarios.entidades.Filme;
 import io.github.zbrant.testesunitarios.entidades.Locacao;
 import io.github.zbrant.testesunitarios.entidades.Usuario;
 import io.github.zbrant.testesunitarios.utils.DataUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
@@ -52,7 +49,20 @@ public class LocacaoServiceTeste_PowerMock {
     public void setup(){
         MockitoAnnotations.initMocks(this);
         service = PowerMockito.spy(service);
+        System.out.println("Iniciando 4...");
+        CalculadoraTest.ordem.append("4");
     }
+
+    @After
+    public void tearDown(){
+        System.out.println("Finalizando 4...");
+    }
+
+    @AfterClass
+    public static void tearDownClass(){
+        System.out.println(CalculadoraTest.ordem.toString());
+    }
+
 
     @Test
     public void deveAlugarFilme() throws Exception {

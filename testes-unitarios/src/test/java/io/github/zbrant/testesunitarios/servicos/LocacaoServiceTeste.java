@@ -6,6 +6,7 @@ import io.github.zbrant.testesunitarios.entidades.Locacao;
 import io.github.zbrant.testesunitarios.entidades.Usuario;
 import io.github.zbrant.testesunitarios.exceptions.FilmeSemEstoqueException;
 import io.github.zbrant.testesunitarios.exceptions.LocadoraException;
+import io.github.zbrant.testesunitarios.runners.ParallelRunner;
 import io.github.zbrant.testesunitarios.utils.DataUtils;
 import org.junit.*;
 import org.junit.rules.ErrorCollector;
@@ -49,6 +50,18 @@ public class LocacaoServiceTeste {
     @Before
     public void setup(){
         MockitoAnnotations.initMocks(this);
+        System.out.println("Iniciando 2...");
+        CalculadoraTest.ordem.append("2");
+    }
+
+    @After
+    public void tearDown(){
+        System.out.println("Finalizando 2...");
+    }
+
+    @AfterClass
+    public static void tearDownClass(){
+        System.out.println(CalculadoraTest.ordem.toString());
     }
 
     @Test

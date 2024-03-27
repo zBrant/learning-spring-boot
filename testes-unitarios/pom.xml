@@ -20,6 +20,23 @@
         <version.powermock>2.0.2</version.powermock>
     </properties>
 
+    <build>
+        <testSourceDirectory>src</testSourceDirectory>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.2.5</version>
+                    <configuration>
+                        <threadCount>2</threadCount>
+                        <parallel>all</parallel>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>org.mockito</groupId>
