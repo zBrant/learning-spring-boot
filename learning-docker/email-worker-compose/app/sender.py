@@ -10,7 +10,7 @@ class Sender(Bottle):
         self.route("/", method="POST", callback=self.send)
         self.fila = redis.StrictRedis(host='queue', port=6379, db=0)
         DSN = 'dbname=email_sender user=postgres host=db' 
-        self.conn = psycopg2.connect(DSgN)
+        self.conn = psycopg2.connect(DSN)
 
     def register_message(self, assunto, mensagem):
         SQL = 'INSERT INTO emails (assunto, mensagem) VALUES (%s, %s)'
